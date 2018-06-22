@@ -1,12 +1,16 @@
 const path = require('path')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const resolve = (dir) => path.resolve(__dirname, '..', dir)
 
 module.exports = {
-  entry: './index.js',
+  entry: {
+    mue: ['./src/index.js'],
+    example: ['./test/example.js']
+  },
   output: {
     path: resolve('dist'),
-    filename: 'mue.bundle.js'
+    filename: '[name].bundle.js'
   },
   module: {
     rules: [
@@ -29,9 +33,14 @@ module.exports = {
   },
   resolve: {
     modules: [
-      'node_moduels',
+      'node_modules',
       resolve('src')
     ],
     extensions: [".js", ".json"],
-  }
+  },
+  plugins: [
+    new CopyWebpackPlugin([
+      {from: './test/index.html'}
+    ], {})
+  ]
 }

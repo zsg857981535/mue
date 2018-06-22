@@ -1,12 +1,12 @@
 {
   "name": "mue",
   "version": "1.0.0",
-  "description": "模仿vue",
+  "description": "模仿vue实现一个简单mvvm库",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode=production --config build/webpack.config.js",
-    "lint": "eslint --ext .js,.vue src"
+    "build": "rimraf dist && webpack --mode=production --config build/webpack.config.js",
+    "lint": "eslint --ext .js,.vue src --fix"
   },
   "keywords": [
     "mvvm",
@@ -20,6 +20,8 @@
     "babel-loader": "^7.1.4",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.7.0",
+    "babel-runtime": "^6.26.0",
+    "copy-webpack-plugin": "^4.5.1",
     "eslint": "^4.19.1",
     "eslint-config-standard": "^11.0.0",
     "eslint-friendly-formatter": "^4.0.1",
