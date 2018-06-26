@@ -24,14 +24,15 @@ class Observer {
   }
   // 定义响应式的数据
   defineReactive (data, key, val) {
-    let dep = new Dep()
-    /* eslint-disable-next-line */
-    let childObj = observe(val)
+    let dep = new Dep() // 新建一个订阅器实例
+
+    observe(val) // 递归
 
     Object.defineProperty(data, key, {
       enumerable: true, // 可枚举
       configurable: false, // 不能再define
       get () {
+        // 由于需要在闭包内添加watcher，所以通过Dep定义一个全局target属性，暂存watcher, 添加完移除
         if (Dep.target) {
           dep.depend()
         }
@@ -43,7 +44,7 @@ class Observer {
         }
         val = newVal
         // 新的值是object的话，进行监听
-        childObj = observe(newVal)
+        observe(newVal)
         // 通知订阅者
         dep.notify()
       }

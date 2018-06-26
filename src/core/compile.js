@@ -83,7 +83,7 @@ const compileUtil = {
     let val = vm
     exp = exp.split('.')
     exp.forEach((k, i) => {
-      // 非最后一个key， 更新val的值
+      // 非最后一个key， 更新val的值, { a: { b: { c: 1 } }, a.b.c = 2 -> val = { b: { c: 1} } -> val = {c : 1} -> val['c'] = 2
       if (i < exp.length - 1) {
         val = val[k]
       } else {
@@ -99,14 +99,26 @@ export default class Compile {
   constructor (el, vm) {
     this.$vm = vm
     this.$el = this.isElementNode(el) ? el : document.querySelector(el)
+    this.$template = vm.$options.template
 
     if (this.$el) {
-      this.$fragment = this.node2Fragment(this.$el)
+      this.$fragment = this.$template ? this.template2Fragment(this.$template) : this.node2Fragment(this.$el)
       this.init()
       this.$el.appendChild(this.$fragment)
     }
   }
 
+  createFragment (html) {
+    let child
+    let fragment = document.createDocumentFragment()
+    let el = document.createElement('div')
+    el.innerHTML = html
+    /* eslint-disable-next-line */
+    while (child = el.firstChild) {
+      fragment.appendChild(child)
+    }
+    return fragment
+  }
   node2Fragment (el) {
     let fragment = document.createDocumentFragment()
     let child
@@ -117,6 +129,18 @@ export default class Compile {
       fragment.appendChild(child)
     }
     return fragment
+  }
+
+  template2Fragment (template) {
+    let el = template.charAt(0) === '#' ? document.body.querySelector(template) : null
+    if (!el) {
+      return this.createFragment(template)
+    }
+    if (el.tagName === 'SCRIPT') {
+      return this.createFragment(el.innerHTML)
+    } else {
+      return this.node2Fragment(el)
+    }
   }
 
   init () {

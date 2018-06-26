@@ -1,2 +1,2 @@
-import Mue from './core/mue'
+import Mue from './instance/mue'
 export default Mue

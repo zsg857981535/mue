@@ -7,6 +7,7 @@ export default class Dep {
     this.subs = [] // 订阅者
   }
 
+  // 添加订阅者
   addSub (sub) {
     this.subs.push(sub)
   }

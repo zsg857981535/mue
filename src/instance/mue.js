@@ -1,6 +1,6 @@
-import Watcher from './watcher'
-import observe from './observer'
-import Compile from './compile'
+import Watcher from '../core/watcher'
+import observe from '../core/observer'
+import Compile from '../core/compile'
 
 // mvvm
 class Mue {
@@ -22,7 +22,7 @@ class Mue {
 
   $watch (key, cb, options) {
     /* eslint-disable-next-line */
-    new Watcher(this, key, cb) 
+    new Watcher(this, key, cb)
   }
 
   _proxyData (key, setter, getter) {
